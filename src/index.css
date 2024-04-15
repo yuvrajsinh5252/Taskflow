@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Ubuntu, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,9 +13,210 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: light) {
+/* Main App css */
+.app {
+  margin: auto 10%;
+}
+
+.first-half {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.head {
+  background-color: #3d3d3d;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.container {
+  display: flex;
+  align-items: start;
+  gap: 20px;
+  justify-content: start;
+}
+
+.output {
+  width: 70%;
+  display: flex;
+  gap: 50px;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  padding-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+}
+
+/* Input CSS */
+
+.input {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+}
+
+label {
+  font-size: 17px;
+}
+
+#algo-name {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: #213547;
+}
+
+option {
+  background-color: white;
+  color: #213547;
+  padding: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #213547;
+}
+
+button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #3d3d3d;
+  color: #ffffff;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+/* ProcessTable css */
+
+.table-container {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0px 10px;
+}
+
+.table-head {
+  color: black;
+  padding: 5px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.process-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.process-table th,
+.process-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.process-table th {
+  background-color: grey;
+}
+
+/* GanttChart css */
+
+.gantt-chart-container {
+  overflow: auto;
+  padding: 10px 10px;
+}
+
+.chart {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+/* controller css */
+
+.controller-box {
+  display: flex;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.control {
+  padding: 22px;
+}
+
+.control .button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #3d3d3d;
+  color: #ffffff;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+/* custom scroll bar */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgb(179, 177, 177);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(77, 77, 77);
+  border-radius: 10px;
+}
+
+/* Dark mode media query */
+
+@media (prefers-color-scheme: dark) {
   :root {
     color: #213547;
     background-color: #ffffff;
+  }
+
+  .process-table th {
+    background-color: #f2f2f2;
   }
 }
