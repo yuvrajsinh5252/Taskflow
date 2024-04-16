@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputContextType, ProcessType } from '../@types/input';
+import { InputContextType, ProcessInfo, ProcessType } from '../@types/input';
 
 export const InputContext = React.createContext<InputContextType | null>(null);
 
@@ -11,18 +11,18 @@ const InputProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const setProcessData = ({
     arrivalTime,
     burstTime,
-  }: {
-    arrivalTime: number;
-    burstTime: number;
-  }) => {
+    completionTime,
+    turnaroundTime,
+    waitingTime,
+  }: ProcessInfo) => {
     const data = process;
     data.push({
       id: process.length + 1,
       arrivalTime,
       burstTime,
-      completionTime: 0,
-      turnaroundTime: 0,
-      waitingTime: 0,
+      completionTime,
+      turnaroundTime,
+      waitingTime,
     });
 
     setProcess(data);

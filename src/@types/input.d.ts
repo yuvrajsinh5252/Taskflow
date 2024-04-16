@@ -3,8 +3,15 @@ export interface InputContextType {
   timeQuantum: number;
   algorithm: string;
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
-  setProcessData: (data: { arrivalTime: number; burstTime: number }) => void;
+  setProcessData: (data: ProcessInfo) => void;
   setTimeQuantum: React.Dispatch<React.SetStateAction<number>>;
+}
+export interface ProcessInfo {
+  arrivalTime: number;
+  burstTime: number;
+  completionTime: number;
+  turnaroundTime: number;
+  waitingTime: number;
 }
 
 export type ProcessType = {

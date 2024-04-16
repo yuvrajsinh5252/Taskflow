@@ -6,29 +6,18 @@ function ProcessTable() {
   const { process } = useContext(InputContext) as InputContextType;
 
   const ProcessInfo = process.map((process, index) => {
-    const FinishTime = process.completionTime;
-    const TurnAroundTime = FinishTime - process.arrivalTime;
-    const WaitingTime = TurnAroundTime - process.burstTime;
-
     return {
       job: `P${index + 1}`,
       arrivalTime: process.arrivalTime,
       BurstTime: process.burstTime,
-      FinishTime,
-      TurnAroundTime,
-      WaitingTime,
+      FinishTime: process.completionTime,
+      TurnAroundTime: process.turnaroundTime,
+      WaitingTime: process.waitingTime,
     }
   });
 
-  const turnAroundTime = ProcessInfo.map((process) => process.TurnAroundTime);
-  const waitingTime = ProcessInfo.map((process) => process.WaitingTime);
-
-  const totalWaitingTime = waitingTime.reduce((acc, curr) => acc + curr, 0);
-  const totalTurnAroundTime = turnAroundTime.reduce((acc, curr) => acc + curr, 0);
-  const job = ProcessInfo.map((process) => process.job);
-
-  const averageWaitingTime = totalWaitingTime / job.length;
-  const averageTurnAroundTime = totalTurnAroundTime / job.length;
+  const averageTurnAroundTime = ProcessInfo.reduce((acc, process) => acc + process.TurnAroundTime, 0) / ProcessInfo.length;
+  const averageWaitingTime = ProcessInfo.reduce((acc, process) => acc + process.WaitingTime, 0) / ProcessInfo.length;
 
   return (
     <div className="table-container">

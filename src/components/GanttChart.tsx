@@ -1,12 +1,11 @@
-function GanttChart() {
-  const GanntInfo = [
-    { ProcessName: "P1", Interval: [0, 6] },
-    { ProcessName: "P2", Interval: [6, 9] },
-    { ProcessName: "P3", Interval: [9, 13] },
-    { ProcessName: "P4", Interval: [13, 15] },
-  ];
+import React from "react";
+import { GanttChartContext } from "../contexts/GanttChartContext";
+import { GanntChartContextType } from "../@types/Ganttchart";
 
-  const GanttChartInfo = GanntInfo;
+function GanttChart() {
+  const { GanttInfo } = React.useContext(GanttChartContext) as GanntChartContextType;
+
+  console.log(GanttInfo);
 
   return (
     <div className="gantt-chart-container">
@@ -14,7 +13,7 @@ function GanttChart() {
       <div className="chart">
         {
           true ? (
-            GanttChartInfo.map((process, index) => (
+            GanttInfo.map((process, index) => (
               <div key={index} className="chart-cell" style={{ width: `${process.Interval[1] * 10}px` }}>
                 <p>{process.ProcessName}</p>
               </div>

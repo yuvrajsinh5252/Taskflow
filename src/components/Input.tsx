@@ -1,10 +1,14 @@
 import React from "react";
 import { InputContext } from "../contexts/InputContext";
 import { InputContextType } from "../@types/input";
+import { fcfs } from "../algorithms/fcfs";
+import { GanttChartContext } from "../contexts/GanttChartContext";
+import { GanntChartContextType } from "../@types/Ganttchart";
 
 function Input() {
   const [Qauntum, setQauntum] = React.useState(false);
   const { setProcessData, setAlgorithm, setTimeQuantum } = React.useContext(InputContext) as InputContextType;
+  const { setGanttInfoData } = React.useContext(GanttChartContext) as GanntChartContextType;
 
   const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,8 +19,25 @@ function Input() {
       arrivalTime: parseInt(arrival.split(' ')[i]),
       burstTime: parseInt(burst.split(' ')[i]),
     }));
+    const algoApplied = fcfs(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
 
-    ProcessData.forEach((data) => setProcessData(data));
+    algoApplied.ProcessInfo.forEach((process) => {
+      setProcessData({
+        arrivalTime: process.arrivalTime,
+        burstTime: process.BurstTime,
+        completionTime: process.FinishTime,
+        turnaroundTime: process.TurnAroundTime,
+        waitingTime: process.WaitingTime,
+      });
+    });
+
+    algoApplied.ProcessInfo.forEach((process) => {
+      setGanttInfoData({
+        ProcessName: process.job,
+        Interval: [process.arrivalTime, process.FinishTime],
+      });
+    });
+
     setAlgorithm(e.currentTarget['algo-name'].value);
 
     if (Qauntum) setTimeQuantum(parseInt(e.currentTarget['quantum'].value));
