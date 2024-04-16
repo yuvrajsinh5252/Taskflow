@@ -1,7 +1,9 @@
+import { BsTwitterX } from "react-icons/bs"
 import GanttChart from "./components/GanttChart"
 import Input from "./components/Input"
 import ProcessTable from "./components/ProcessTable"
 import Controller from "./components/controller"
+import { AiFillGithub } from "react-icons/ai"
 
 function App() {
 
@@ -20,6 +22,13 @@ function App() {
           <GanttChart />
         </div>
       </div>
+      <footer className="footer">
+        <a href="https://github.com/yuvrajsinh5252" target="_blank" className="github">
+          <AiFillGithub size={25} />
+          <span>github</span>
+        </a>
+        <BsTwitterX size={20} />
+      </footer>
     </div >
   )
 }

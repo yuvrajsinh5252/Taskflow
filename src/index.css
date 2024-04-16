@@ -129,6 +129,7 @@ button {
 .process-table {
   width: 100%;
   border-collapse: collapse;
+  min-height: 270px;
 }
 
 .process-table th,
@@ -161,7 +162,6 @@ button {
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 100%;
   border: 1px solid #ccc;
   background-color: #f2f2f2;
   border-radius: 5px;
@@ -206,6 +206,30 @@ button {
 ::-webkit-scrollbar-thumb {
   background: rgb(77, 77, 77);
   border-radius: 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0%;
+  right: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.github {
+  text-decoration: none;
+  color: #213547;
+  display: flex;
+  gap: 10px;
+  padding-right: 20px !important;
+  padding: 5px;
+  border-right: 2px solid #ccc;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Dark mode media query */
