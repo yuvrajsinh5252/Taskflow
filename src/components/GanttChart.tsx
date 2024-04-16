@@ -1,12 +1,4 @@
-interface GanttchartProps {
-  GanttChartInfo: {
-    ProcessName: string;
-    Interval: number[];
-  }[];
-}
-
-function GanttChart({ GanttChartInfo }: GanttchartProps) {
-
+function GanttChart() {
   const GanntInfo = [
     { ProcessName: "P1", Interval: [0, 6] },
     { ProcessName: "P2", Interval: [6, 9] },
@@ -14,7 +6,7 @@ function GanttChart({ GanttChartInfo }: GanttchartProps) {
     { ProcessName: "P4", Interval: [13, 15] },
   ];
 
-  GanttChartInfo = GanntInfo;
+  const GanttChartInfo = GanntInfo;
 
   return (
     <div className="gantt-chart-container">

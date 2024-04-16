@@ -89,6 +89,12 @@ option {
   gap: 20px;
 }
 
+.quantum-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
 input {
   padding: 10px;
   border-radius: 5px;
@@ -218,6 +224,11 @@ button {
   padding: 10px;
   gap: 20px;
   cursor: pointer;
+}
+
+.x {
+  text-decoration: none;
+  color: #213547;
 }
 
 .github {
