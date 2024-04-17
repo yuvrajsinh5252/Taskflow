@@ -11,6 +11,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --animation-width: 100px;
 }
 
 /* Main App css */
@@ -264,5 +265,16 @@ button {
 
   .process-table th {
     background-color: #f2f2f2;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    width: 0px;
+  }
+  to {
+    opacity: 1;
+    width: var(--animation-width, 100px);
   }
 }

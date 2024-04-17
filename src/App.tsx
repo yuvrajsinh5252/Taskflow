@@ -6,6 +6,7 @@ import Controller from "./components/controller"
 import { AiFillGithub } from "react-icons/ai"
 import InputProvider from "./contexts/InputContext"
 import GanttChartProvider from "./contexts/GanttChartContext"
+import ControllerProvider from "./contexts/ControllerContext"
 
 function App() {
 
@@ -17,14 +18,16 @@ function App() {
       <InputProvider>
         <div className="container">
           <GanttChartProvider>
-            <div className="first-half">
-              <Input />
-              <Controller />
-            </div>
-            <div className="output">
-              <ProcessTable />
-              <GanttChart />
-            </div>
+            <ControllerProvider>
+              <div className="first-half">
+                <Input />
+                <Controller />
+              </div>
+              <div className="output">
+                <ProcessTable />
+                <GanttChart />
+              </div>
+            </ControllerProvider>
           </GanttChartProvider>
         </div>
       </InputProvider>
