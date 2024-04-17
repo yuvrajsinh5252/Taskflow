@@ -15,8 +15,8 @@ function App() {
         <span>CPU Scheduling Algorithm</span>
       </h2>
       <InputProvider>
-        <GanttChartProvider>
-          <div className="container">
+        <div className="container">
+          <GanttChartProvider>
             <div className="first-half">
               <Input />
               <Controller />
@@ -25,8 +25,8 @@ function App() {
               <ProcessTable />
               <GanttChart />
             </div>
-          </div>
-        </GanttChartProvider>
+          </GanttChartProvider>
+        </div>
       </InputProvider>
       <footer className="footer">
         <a href="https://github.com/yuvrajsinh5252" target="_blank" className="github">

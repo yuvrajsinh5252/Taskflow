@@ -8,29 +8,24 @@ const InputProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [timeQuantum, setTimeQuantum] = React.useState(0);
   const [algorithm, setAlgorithm] = React.useState('');
 
-  const setProcessData = ({
-    arrivalTime,
-    burstTime,
-    completionTime,
-    turnaroundTime,
-    waitingTime,
-  }: ProcessInfo) => {
-    const data = process;
-    data.push({
-      id: process.length + 1,
-      arrivalTime,
-      burstTime,
-      completionTime,
-      turnaroundTime,
-      waitingTime,
-    });
+  const setProcessData = ({ arrivalTime, burstTime, completionTime, turnaroundTime, waitingTime }: ProcessInfo) => {
+    setProcess(previousData => [
+      ...previousData,
+      {
+        id: previousData.length + 1,
+        arrivalTime,
+        burstTime,
+        completionTime,
+        turnaroundTime,
+        waitingTime,
+      }
+    ]);
+  };
 
-    setProcess(data);
-  }
-
+  const clearProcessData = () => setProcess([]);
 
   return (
-    <InputContext.Provider value={{ process, timeQuantum, algorithm, setAlgorithm, setProcessData, setTimeQuantum }}>
+    <InputContext.Provider value={{ process, timeQuantum, algorithm, setAlgorithm, setProcessData, setTimeQuantum, clearProcessData }}>
       {children}
     </InputContext.Provider>
   );

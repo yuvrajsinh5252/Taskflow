@@ -156,6 +156,17 @@ button {
   padding: 10px 10px;
 }
 
+.interval {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10px;
+}
+
+.secInterval {
+  margin-right: -10px;
+}
+
 .chart {
   display: flex;
   gap: 5px;

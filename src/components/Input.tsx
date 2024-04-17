@@ -4,22 +4,59 @@ import { InputContextType } from "../@types/input";
 import { fcfs } from "../algorithms/fcfs";
 import { GanttChartContext } from "../contexts/GanttChartContext";
 import { GanntChartContextType } from "../@types/Ganttchart";
+import { rr } from "../algorithms/rr";
+import { sjf } from "../algorithms/sjf";
+import { srtf } from "../algorithms/srtf";
+import { validateInput } from "../utils/InputValidator";
 
 function Input() {
   const [Qauntum, setQauntum] = React.useState(false);
-  const { setProcessData, setAlgorithm, setTimeQuantum } = React.useContext(InputContext) as InputContextType;
-  const { setGanttInfoData } = React.useContext(GanttChartContext) as GanntChartContextType;
+  const { setProcessData, setAlgorithm, setTimeQuantum, clearProcessData } = React.useContext(InputContext) as InputContextType;
+  const { setGanttInfoData, clearGanttInfoData } = React.useContext(GanttChartContext) as GanntChartContextType;
+  const formRef = React.useRef<HTMLFormElement | null>(null);
 
   const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const arrival = e.currentTarget['arrival'].value;
     const burst = e.currentTarget['burst'].value;
+    let quantum = 0;
+
+    if (Qauntum) quantum = parseInt(e.currentTarget['quantum'].value);
 
     const ProcessData = Array.from({ length: arrival.split(' ').length }, (_, i) => ({
       arrivalTime: parseInt(arrival.split(' ')[i]),
       burstTime: parseInt(burst.split(' ')[i]),
     }));
-    const algoApplied = fcfs(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
+
+    if (arrival.split(' ').length < burst.split(' ').length) {
+      alert('Arrival Time should have the same length as Burst Time');
+      formRef.current?.reset();
+      return;
+    }
+    const validation = validateInput(ProcessData, quantum);
+
+    if (validation !== "Valid Input") {
+      alert(validation);
+      formRef.current?.reset();
+      return;
+    }
+
+    let algoApplied: {
+      ProcessInfo: { job: string; arrivalTime: number; BurstTime: number; FinishTime: number; TurnAroundTime: number; WaitingTime: number; }[];
+    } = { ProcessInfo: [] };
+
+    if (e.currentTarget['algo-name'].value === 'fcfs')
+      algoApplied = fcfs(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
+    else if (e.currentTarget['algo-name'].value === 'sjf')
+      algoApplied = sjf(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
+    else if (e.currentTarget['algo-name'].value === 'srtf')
+      algoApplied = srtf(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
+    else if (e.currentTarget['algo-name'].value === 'rr')
+      algoApplied = rr(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime), quantum);
+
+    //  Clearing the previous data
+    clearProcessData();
+    clearGanttInfoData();
 
     algoApplied.ProcessInfo.forEach((process) => {
       setProcessData({
@@ -29,9 +66,6 @@ function Input() {
         turnaroundTime: process.TurnAroundTime,
         waitingTime: process.WaitingTime,
       });
-    });
-
-    algoApplied.ProcessInfo.forEach((process) => {
       setGanttInfoData({
         ProcessName: process.job,
         Interval: [process.arrivalTime, process.FinishTime],
@@ -41,12 +75,14 @@ function Input() {
     setAlgorithm(e.currentTarget['algo-name'].value);
 
     if (Qauntum) setTimeQuantum(parseInt(e.currentTarget['quantum'].value));
+    setQauntum(false);
+    formRef.current?.reset();
   }
 
   return (
     <div className="input">
       <h1 className='table-head'>Input</h1>
-      <form onSubmit={handlesubmit} className="input-container">
+      <form ref={formRef} onSubmit={handlesubmit} className="input-container">
         <div className="input-group">
           <label htmlFor="algo-name">
             Choose an Algorithm

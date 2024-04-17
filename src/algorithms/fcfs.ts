@@ -4,9 +4,6 @@ export function fcfs(ArrivalTime: number[], BurstTime: number[]) {
   const waitingTime = [];
   const turnAroundTime = [];
 
-  let totalWaitingTime = 0;
-  let totalTurnAroundTime = 0;
-
   let currentTime = 0;
 
   for (let i = 0; i < n; i++) {
@@ -38,17 +35,5 @@ export function fcfs(ArrivalTime: number[], BurstTime: number[]) {
     turnAroundTime.push(ProcessInfo[i].TurnAroundTime);
   }
 
-  totalWaitingTime = waitingTime.reduce((acc, curr) => acc + curr, 0);
-  totalTurnAroundTime = turnAroundTime.reduce((acc, curr) => acc + curr, 0);
-
-  const job = ProcessInfo.map((process) => process.job);
-
-  const averageWaitingTime = totalWaitingTime / job.length;
-  const averageTurnAroundTime = totalTurnAroundTime / job.length;
-
-  return {
-    ProcessInfo,
-    averageWaitingTime,
-    averageTurnAroundTime,
-  };
+  return { ProcessInfo };
 }

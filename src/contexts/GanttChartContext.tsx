@@ -1,27 +1,19 @@
 import React from "react";
-import { GanntChartContextType } from "../@types/Ganttchart";
+import { GanntChartContextType, GanttData } from "../@types/Ganttchart";
 
 export const GanttChartContext = React.createContext<GanntChartContextType | null>(null);
 
 const GanttChartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [GanttInfo, setGanttInfo] = React.useState<GanntChartContextType["GanttInfo"]>([]);
+  const [GanttInfo, setGanttInfo] = React.useState<GanttData[]>([]);
 
-  const setGanttInfoData = (
-    {
-      ProcessName,
-      Interval,
-    }: {
-      ProcessName: string;
-      Interval: [number, number];
-    }
-  ) => {
-    const newGanttInfo = [...GanttInfo];
-    newGanttInfo.push({ ProcessName, Interval });
-    setGanttInfo(newGanttInfo);
+  const setGanttInfoData = ({ ProcessName, Interval }: GanttData) => {
+    setGanttInfo(previousInfo => [...previousInfo, { ProcessName, Interval }]);
   }
 
+  const clearGanttInfoData = () => setGanttInfo([])
+
   return (
-    <GanttChartContext.Provider value={{ GanttInfo, setGanttInfoData }}>
+    <GanttChartContext.Provider value={{ GanttInfo, setGanttInfoData, clearGanttInfoData }}>
       {children}
     </GanttChartContext.Provider>
   );

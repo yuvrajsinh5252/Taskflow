@@ -5,6 +5,7 @@ export interface InputContextType {
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
   setProcessData: (data: ProcessInfo) => void;
   setTimeQuantum: React.Dispatch<React.SetStateAction<number>>;
+  clearProcessData: () => void;
 }
 export interface ProcessInfo {
   arrivalTime: number;

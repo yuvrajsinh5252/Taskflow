@@ -1,11 +1,8 @@
 export interface GanntChartContextType {
-  GanttInfo: {
-    ProcessName: string;
-    Interval: number[];
-  }[];
-  setGanttInfoData: (info: GanttData) => void;
+  GanttInfo: GanttInfoType[];
+  setGanttInfoData: (data: GanttData | any) => void;
+  clearGanttInfoData: () => void;
 }
-
 export interface GanttData {
   ProcessName: string;
   Interval: [number, number];
