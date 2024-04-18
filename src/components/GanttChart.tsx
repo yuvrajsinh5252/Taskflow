@@ -38,22 +38,22 @@ function GanttChart() {
       if (i < GanttInfo.length - 1) {
         if (status == "running") {
           setVisibleProcesses(prev => [...prev, GanttInfo[i]]);
-          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0] + 1) * 20}px`);
           i++;
         }
 
         if (visibleProcesses.length == 0 && i == 0) {
           setVisibleProcesses([GanttInfo[i]]);
-          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0] + 1) * 20}px`);
         }
         else if (visibleProcesses.length > 1 && i == 0) setVisibleProcesses([]);
         else if (status == "next") {
           setVisibleProcesses(prev => [...prev, GanttInfo[i]]);
-          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0] + 1) * 20}px`);
           i++;
         } else if (status == "prev") {
           setVisibleProcesses(prev => prev.slice(0, -1));
-          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0] + 1) * 20}px`);
           if (i > 0) i--;
         }
 
@@ -61,7 +61,7 @@ function GanttChart() {
         localStorage.setItem("i", i);
       } else if (status == "prev") {
         setVisibleProcesses(prev => prev.slice(0, -1));
-        setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+        setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0] + 1) * 20}px`);
         i--;
         setStatus("reset");
         localStorage.setItem("i", i);

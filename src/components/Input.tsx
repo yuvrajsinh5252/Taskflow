@@ -58,8 +58,6 @@ function Input() {
     else if (e.currentTarget['algo-name'].value === 'rr')
       algoApplied = rr(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime), quantum);
 
-    console.log(algoApplied);
-
     //  Clearing the previous data
     clearProcessData();
     clearGanttInfoData();

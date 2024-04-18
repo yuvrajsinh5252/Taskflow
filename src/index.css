@@ -17,6 +17,7 @@
 /* Main App css */
 .app {
   margin: auto 10%;
+  overflow: auto;
 }
 
 .first-half {
