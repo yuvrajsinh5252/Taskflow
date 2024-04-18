@@ -5,7 +5,7 @@ import { InputContext } from "../contexts/InputContext";
 function ProcessTable() {
   const { process } = useContext(InputContext) as InputContextType;
 
-  const ProcessInfo = process.map((process, index) => {
+  let ProcessInfo = process.map((process, index) => {
     return {
       job: `P${index + 1}`,
       arrivalTime: process.arrivalTime,
@@ -14,6 +14,12 @@ function ProcessTable() {
       TurnAroundTime: process.turnaroundTime,
       WaitingTime: process.waitingTime,
     }
+  }).filter(process => process.TurnAroundTime !== 0);
+
+  //  reassigning job names
+  ProcessInfo = ProcessInfo.map((process, index) => {
+    process.job = `P${index + 1}`;
+    return process;
   });
 
   const averageTurnAroundTime = ProcessInfo.reduce((acc, process) => acc + process.TurnAroundTime, 0) / ProcessInfo.length;

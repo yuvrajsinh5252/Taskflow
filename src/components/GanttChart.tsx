@@ -6,11 +6,17 @@ import { ControllerContextType } from "../@types/Controller";
 
 function GanttChart() {
   const { GanttInfo } = React.useContext(GanttChartContext) as GanntChartContextType;
-  const { status, setStatus } = React.useContext(ControllerContext) as ControllerContextType;
+  const { status, setStatus, speed } = React.useContext(ControllerContext) as ControllerContextType;
 
   const elementRef = React.useRef<HTMLDivElement>(null);
   const [visibleProcesses, setVisibleProcesses] = React.useState<GanttData[]>([]);
   const [width, setWidth] = React.useState('0px');
+  let i: any;
+
+  if (localStorage.getItem("i") == null) {
+    i = 0;
+    localStorage.setItem("i", i);
+  } else i = localStorage.getItem("i");
 
   React.useEffect(() => {
     if (elementRef.current) {
@@ -19,43 +25,49 @@ function GanttChart() {
   }, [width]);
 
   React.useEffect(() => {
-    let i = 0;
     const interval = setInterval(() => {
+      if (status == "clear") {
+        setVisibleProcesses([]);
+        i = 0;
+        localStorage.setItem("i", i);
+        setStatus("running");
+      }
+
       if (i < GanttInfo.length - 1) {
         if (status == "running") {
           setVisibleProcesses(prev => [...prev, GanttInfo[i]]);
-          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 50}px`);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
           i++;
-        } else if (status == "next") {
-          if (visibleProcesses.length == 0) {
-            setVisibleProcesses([GanttInfo[0]]);
-            i++;
-          }
-          else {
-            setVisibleProcesses(prev => [...prev, GanttInfo[i]]);
-            setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 50}px`);
-          }
-          setStatus("reset");
+        }
+
+        if (visibleProcesses.length == 0 && i == 0) {
+          setVisibleProcesses([GanttInfo[i]]);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+        }
+        else if (visibleProcesses.length > 1 && i == 0) setVisibleProcesses([]);
+        else if (status == "next") {
+          setVisibleProcesses(prev => [...prev, GanttInfo[i]]);
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
           i++;
         } else if (status == "prev") {
           setVisibleProcesses(prev => prev.slice(0, -1));
-          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 50}px`);
-          setStatus("reset");
-          i--;
+          setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+          if (i > 0) i--;
         }
-      } else {
-        if (interval) clearInterval(interval);
-      }
-    }, 1000); // 1000ms delay between each process
 
-    if (GanttInfo.length > 0 && status == "running") {
-      setVisibleProcesses([GanttInfo[0]]);
-      setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 50}px`);
-      i++;
-    }
+        if (status != "running") setStatus("reset");
+        localStorage.setItem("i", i);
+      } else if (status == "prev") {
+        setVisibleProcesses(prev => prev.slice(0, -1));
+        setWidth(`${(GanttInfo[i].Interval[1] - GanttInfo[i].Interval[0]) * 20}px`);
+        i--;
+        setStatus("reset");
+        localStorage.setItem("i", i);
+      }
+    }, speed * 20);
 
     return () => clearInterval(interval);
-  }, [GanttInfo, status]);
+  }, [GanttInfo, status, speed]);
 
   return (
     <div className="gantt-chart-container">
@@ -65,12 +77,7 @@ function GanttChart() {
           visibleProcesses.length > 0 ? (
             visibleProcesses.map((process, index) => (
               <div key={index}>
-                <p className="chart-cell"
-                  ref={elementRef}
-                  style={{
-                    width: `${process.Interval[1] * 10}px`,
-                    animation: `fadeIn ${index}s forwards`
-                  }}>
+                <p className="chart-cell" ref={elementRef}>
                   {process.ProcessName}
                 </p>
                 <div className="interval">
@@ -80,7 +87,7 @@ function GanttChart() {
               </div>
             ))
           ) : (
-            <p>Nothing to show</p>
+            <p className="nothing">Nothing to show</p>
           )
         }
       </div>

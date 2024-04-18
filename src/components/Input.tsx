@@ -8,11 +8,14 @@ import { rr } from "../algorithms/rr";
 import { sjf } from "../algorithms/sjf";
 import { srtf } from "../algorithms/srtf";
 import { validateInput } from "../utils/InputValidator";
+import { ControllerContext } from "../contexts/ControllerContext";
+import { ControllerContextType } from "../@types/Controller";
 
 function Input() {
   const [Qauntum, setQauntum] = React.useState(false);
   const { setProcessData, setAlgorithm, setTimeQuantum, clearProcessData } = React.useContext(InputContext) as InputContextType;
   const { setGanttInfoData, clearGanttInfoData } = React.useContext(GanttChartContext) as GanntChartContextType;
+  const { setStatus } = React.useContext(ControllerContext) as ControllerContextType;
   const formRef = React.useRef<HTMLFormElement | null>(null);
 
   const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,6 +60,7 @@ function Input() {
     //  Clearing the previous data
     clearProcessData();
     clearGanttInfoData();
+    setStatus("clear");
 
     algoApplied.ProcessInfo.forEach((process) => {
       setProcessData({

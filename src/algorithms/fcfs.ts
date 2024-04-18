@@ -19,9 +19,20 @@ export function fcfs(ArrivalTime: number[], BurstTime: number[]) {
     ProcessInfo.push(process);
   }
 
+  const FinalProcessInfo = [];
+
   for (let i = 0; i < n; i++) {
     if (currentTime < ProcessInfo[i].arrivalTime) {
-      currentTime = ProcessInfo[i].arrivalTime;
+      const idleProcess = {
+        job: `Idle`,
+        arrivalTime: currentTime,
+        BurstTime: ProcessInfo[i].arrivalTime - currentTime,
+        FinishTime: ProcessInfo[i].arrivalTime,
+        TurnAroundTime: 0,
+        WaitingTime: 0,
+      };
+      FinalProcessInfo.push(idleProcess);
+      currentTime = idleProcess.FinishTime;
     }
 
     ProcessInfo[i].FinishTime = currentTime + ProcessInfo[i].BurstTime;
@@ -33,7 +44,9 @@ export function fcfs(ArrivalTime: number[], BurstTime: number[]) {
     currentTime = ProcessInfo[i].FinishTime;
     waitingTime.push(ProcessInfo[i].WaitingTime);
     turnAroundTime.push(ProcessInfo[i].TurnAroundTime);
+
+    FinalProcessInfo.push(ProcessInfo[i]);
   }
 
-  return { ProcessInfo };
+  return { ProcessInfo: FinalProcessInfo };
 }

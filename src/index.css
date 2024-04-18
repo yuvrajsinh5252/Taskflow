@@ -43,7 +43,7 @@
 .output {
   width: 70%;
   display: flex;
-  gap: 50px;
+  gap: 10px;
   flex-direction: column;
   padding: 10px;
   border-radius: 10px;
@@ -154,7 +154,11 @@ button {
 
 .gantt-chart-container {
   overflow: auto;
-  padding: 10px 10px;
+  padding: 10px;
+}
+
+.nothing {
+  padding: 15px;
 }
 
 .interval {
@@ -183,12 +187,14 @@ button {
   border: 1px solid #ccc;
   background-color: #f2f2f2;
   border-radius: 5px;
+  animation: fadeIn 0.5s forwards;
 }
 
 /* controller css */
 
 .controller-box {
   display: flex;
+  flex-direction: column;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -198,7 +204,14 @@ button {
 }
 
 .control {
-  padding: 22px;
+  display: flex;
+  gap: 15px;
+}
+
+.speed {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .control .button {
@@ -275,6 +288,6 @@ button {
   }
   to {
     opacity: 1;
-    width: var(--animation-width, 100px);
+    width: var(--animation-width, 20px);
   }
 }
