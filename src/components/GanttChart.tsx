@@ -8,6 +8,8 @@ function GanttChart() {
   const { GanttInfo } = React.useContext(GanttChartContext) as GanntChartContextType;
   const { status, setStatus, speed } = React.useContext(ControllerContext) as ControllerContextType;
 
+  console.log(GanttInfo);
+
   const elementRef = React.useRef<HTMLDivElement>(null);
   const [visibleProcesses, setVisibleProcesses] = React.useState<GanttData[]>([]);
   const [width, setWidth] = React.useState('0px');

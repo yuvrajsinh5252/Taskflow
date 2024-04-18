@@ -3,7 +3,7 @@ import { InputContext } from "../contexts/InputContext";
 import { InputContextType } from "../@types/input";
 import { fcfs } from "../algorithms/fcfs";
 import { GanttChartContext } from "../contexts/GanttChartContext";
-import { GanntChartContextType } from "../@types/Ganttchart";
+import { GanntChartContextType, GanttData } from "../@types/Ganttchart";
 import { rr } from "../algorithms/rr";
 import { sjf } from "../algorithms/sjf";
 import { srtf } from "../algorithms/srtf";
@@ -46,7 +46,8 @@ function Input() {
 
     let algoApplied: {
       ProcessInfo: { job: string; arrivalTime: number; BurstTime: number; FinishTime: number; TurnAroundTime: number; WaitingTime: number; }[];
-    } = { ProcessInfo: [] };
+      ganttChartInfo: GanttData[];
+    } = { ProcessInfo: [], ganttChartInfo: [] };
 
     if (e.currentTarget['algo-name'].value === 'fcfs')
       algoApplied = fcfs(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
@@ -56,6 +57,8 @@ function Input() {
       algoApplied = srtf(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
     else if (e.currentTarget['algo-name'].value === 'rr')
       algoApplied = rr(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime), quantum);
+
+    console.log(algoApplied);
 
     //  Clearing the previous data
     clearProcessData();
@@ -70,17 +73,23 @@ function Input() {
         turnaroundTime: process.TurnAroundTime,
         waitingTime: process.WaitingTime,
       });
-      setGanttInfoData({
-        ProcessName: process.job,
-        Interval: [process.arrivalTime, process.FinishTime],
-      });
+    });
+
+    algoApplied.ganttChartInfo.forEach((process) => {
+      let ganttdatas: GanttData;
+
+      ganttdatas = {
+        ProcessName: process.ProcessName,
+        Interval: process.Interval,
+      };
+
+      console.log(process);
+      setGanttInfoData(ganttdatas);
     });
 
     setAlgorithm(e.currentTarget['algo-name'].value);
 
     if (Qauntum) setTimeQuantum(parseInt(e.currentTarget['quantum'].value));
-    setQauntum(false);
-    formRef.current?.reset();
   }
 
   return (

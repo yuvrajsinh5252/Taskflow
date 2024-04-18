@@ -1,59 +1,88 @@
-export function srtf(ArrivalTime: number[], BurstTime: number[]) {
-  let ProcessInfo: {
-    job: string;
-    arrivalTime: number;
-    BurstTime: number;
-    FinishTime: number;
-    TurnAroundTime: number;
-    WaitingTime: number;
-  }[] = [];
+import { GanttData } from "../@types/Ganttchart";
 
+export const srtf = (ArrivalTime: number[], BurstTime: number[]) => {
+  let ProcessInfo = [];
+  let ganttChartInfo: GanttData[] = [];
   let n = ArrivalTime.length;
-  let remainingTime = BurstTime.slice();
-  let complete = 0;
-  let t = 0;
-  let shortest = 0;
-  let finishTime = 0;
-  let min = Number.MAX_VALUE;
-  let check = false;
 
-  while (complete !== n) {
-    for (let i = 0; i < n; i++) {
-      if (
-        ArrivalTime[i] <= t &&
-        remainingTime[i] < min &&
-        remainingTime[i] > 0
-      ) {
-        min = remainingTime[i];
-        shortest = i;
-        check = true;
+  for (let i = 0; i < n; i++) {
+    const process = {
+      job: `P${i + 1}`,
+      arrivalTime: ArrivalTime[i],
+      BurstTime: BurstTime[i],
+      FinishTime: 0,
+      TurnAroundTime: 0,
+      WaitingTime: 0,
+    };
+
+    ProcessInfo.push(process);
+  }
+
+  ProcessInfo.sort((a, b) => a.arrivalTime - b.arrivalTime);
+
+  let currentTime = 0;
+  let processQueue = [];
+  let Index = 0;
+  let completed = 0;
+  let shortest = 0;
+
+  let totalTime = BurstTime.reduce((a, b) => a + b, 0);
+  console.log(totalTime);
+
+  for (let i = 0; i <= totalTime; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === ArrivalTime[j]) {
+        processQueue.push(j);
       }
     }
 
-    if (!check) {
-      t++;
-      continue;
-    }
+    let min = Number.MAX_VALUE;
+    shortest = 0;
 
-    remainingTime[shortest]--;
-    min = remainingTime[shortest];
-    if (min === 0) min = Number.MAX_VALUE;
+    if (processQueue.length > 0) {
+      for (let j = 0; j < processQueue.length; j++) {
+        if (BurstTime[processQueue[j]] < min) {
+          min = BurstTime[processQueue[j]];
+          shortest = processQueue[j];
+        }
+      }
 
-    if (remainingTime[shortest] === 0) {
-      complete++;
-      check = false;
-      finishTime = t + 1;
-      ProcessInfo.push({
-        job: `P${shortest + 1}`,
-        arrivalTime: ArrivalTime[shortest],
-        BurstTime: BurstTime[shortest],
-        FinishTime: finishTime,
-        TurnAroundTime: finishTime - ArrivalTime[shortest],
-        WaitingTime: finishTime - ArrivalTime[shortest] - BurstTime[shortest],
-      });
+      if (Index !== shortest) {
+        if (Index !== -1) {
+          ganttChartInfo.push({
+            ProcessName: ProcessInfo[Index].job,
+            Interval: [currentTime, i],
+          });
+        }
+
+        Index = shortest;
+        currentTime = i;
+      }
+
+      BurstTime[shortest] -= 1;
+
+      if (BurstTime[shortest] === 0) {
+        completed++;
+        ProcessInfo[shortest].FinishTime = i + 1;
+        ProcessInfo[shortest].TurnAroundTime =
+          ProcessInfo[shortest].FinishTime - ProcessInfo[shortest].arrivalTime;
+        ProcessInfo[shortest].WaitingTime =
+          ProcessInfo[shortest].TurnAroundTime -
+          ProcessInfo[shortest].BurstTime;
+        currentTime = i + 1;
+        processQueue.splice(processQueue.indexOf(shortest), 1);
+      }
+    } else {
+      if (Index !== -1) {
+        ganttChartInfo.push({
+          ProcessName: ProcessInfo[Index].job,
+          Interval: [currentTime, i],
+        });
+      }
+
+      Index = -1;
     }
-    t++;
   }
 
-  return { ProcessInfo };
-}
+  return { ProcessInfo, ganttChartInfo };
+};

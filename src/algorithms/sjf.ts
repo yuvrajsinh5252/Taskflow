@@ -1,3 +1,5 @@
+import { GanttData } from "../@types/Ganttchart";
+
 export function sjf(ArrivalTime: number[], BurstTime: number[]) {
   const n = ArrivalTime.length;
   const ProcessInfo = [];
@@ -33,5 +35,21 @@ export function sjf(ArrivalTime: number[], BurstTime: number[]) {
     currentTime = ProcessInfo[i].FinishTime;
   }
 
-  return { ProcessInfo };
+  const ganttChartInfo: GanttData[] = [];
+
+  for (let i = 0; i < ProcessInfo.length; i++) {
+    if (i === 0) {
+      ganttChartInfo.push({
+        ProcessName: ProcessInfo[i].job,
+        Interval: [0, ProcessInfo[i].FinishTime],
+      });
+    } else {
+      ganttChartInfo.push({
+        ProcessName: ProcessInfo[i].job,
+        Interval: [ProcessInfo[i - 1].FinishTime, ProcessInfo[i].FinishTime],
+      });
+    }
+  }
+
+  return { ProcessInfo, ganttChartInfo };
 }
