@@ -14,6 +14,11 @@ function App() {
     <div className="app">
       <h2 className='head'>
         <span>CPU Scheduling Algorithm</span>
+        <select id="color-scheme">
+          <option value="system" selected>System</option>
+          <option value="light">Dark</option>
+          <option value="dark">Light</option>
+        </select>
       </h2>
       <InputProvider>
         <div className="container">
