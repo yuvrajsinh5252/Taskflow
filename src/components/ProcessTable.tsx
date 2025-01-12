@@ -5,16 +5,18 @@ import { InputContext } from "../contexts/InputContext";
 function ProcessTable() {
   const { process } = useContext(InputContext) as InputContextType;
 
-  let ProcessInfo = process.map((process, index) => {
-    return {
-      job: `P${index + 1}`,
-      arrivalTime: process.arrivalTime,
-      BurstTime: process.burstTime,
-      FinishTime: process.completionTime,
-      TurnAroundTime: process.turnaroundTime,
-      WaitingTime: process.waitingTime,
-    }
-  }).filter(process => process.TurnAroundTime !== 0);
+  let ProcessInfo = process
+    .map((process, index) => {
+      return {
+        job: `P${index + 1}`,
+        arrivalTime: process.arrivalTime,
+        BurstTime: process.burstTime,
+        FinishTime: process.completionTime,
+        TurnAroundTime: process.turnaroundTime,
+        WaitingTime: process.waitingTime,
+      };
+    })
+    .filter((process) => process.TurnAroundTime !== 0);
 
   //  reassigning job names
   ProcessInfo = ProcessInfo.map((process, index) => {
@@ -22,12 +24,16 @@ function ProcessTable() {
     return process;
   });
 
-  const averageTurnAroundTime = ProcessInfo.reduce((acc, process) => acc + process.TurnAroundTime, 0) / ProcessInfo.length;
-  const averageWaitingTime = ProcessInfo.reduce((acc, process) => acc + process.WaitingTime, 0) / ProcessInfo.length;
+  const averageTurnAroundTime =
+    ProcessInfo.reduce((acc, process) => acc + process.TurnAroundTime, 0) /
+    ProcessInfo.length;
+  const averageWaitingTime =
+    ProcessInfo.reduce((acc, process) => acc + process.WaitingTime, 0) /
+    ProcessInfo.length;
 
   return (
     <div className="table-container">
-      <h2 className='table-head'>Process Table</h2>
+      <h2 className="table-head">Process Table</h2>
       <table className="process-table">
         <thead>
           <tr>
@@ -39,40 +45,33 @@ function ProcessTable() {
             <th>Waiting Time</th>
           </tr>
         </thead>
-        {
-          ProcessInfo && ProcessInfo.length > 0 ? (
-            <tbody>
-              {
-                ProcessInfo.map((process, index) => (
-                  <tr key={index}>
-                    <td>{process.job}</td>
-                    <td>{process.arrivalTime}</td>
-                    <td>{process.BurstTime}</td>
-                    <td>{process.FinishTime}</td>
-                    <td>{process.TurnAroundTime}</td>
-                    <td>{process.WaitingTime}</td>
-                  </tr>
-                ))
-              }
-              <tr>
-                <td colSpan={3}></td>
-                <td>Average </td>
-                <td> {averageTurnAroundTime.toFixed(2)}</td>
-                <td>{averageWaitingTime.toFixed(2)}</td>
+        {ProcessInfo && ProcessInfo.length > 0 ? (
+          <tbody>
+            {ProcessInfo.map((process, index) => (
+              <tr key={index}>
+                <td>{process.job}</td>
+                <td>{process.arrivalTime}</td>
+                <td>{process.BurstTime}</td>
+                <td>{process.FinishTime}</td>
+                <td>{process.TurnAroundTime}</td>
+                <td>{process.WaitingTime}</td>
               </tr>
-            </tbody>
-          ) : (
-            <tbody>
-              <tr>
-                <td colSpan={6}>
-                  No data available
-                </td>
-              </tr>
-            </tbody>
-          )
-        }
+            ))}
+            <tr>
+              <td colSpan={3}></td>
+              <td>Average </td>
+              <td> {averageTurnAroundTime.toFixed(2)}</td>
+              <td>{averageWaitingTime.toFixed(2)}</td>
+            </tr>
+          </tbody>
+        ) : (
+          <tbody>
+            <tr>
+              <td colSpan={6}>No data available</td>
+            </tr>
+          </tbody>
+        )}
       </table>
-
     </div>
   );
 }

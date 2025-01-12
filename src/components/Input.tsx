@@ -13,26 +13,34 @@ import { ControllerContextType } from "../@types/Controller";
 
 function Input() {
   const [Qauntum, setQauntum] = React.useState(false);
-  const { setProcessData, setAlgorithm, setTimeQuantum, clearProcessData } = React.useContext(InputContext) as InputContextType;
-  const { setGanttInfoData, clearGanttInfoData } = React.useContext(GanttChartContext) as GanntChartContextType;
-  const { setStatus } = React.useContext(ControllerContext) as ControllerContextType;
+  const { setProcessData, setAlgorithm, setTimeQuantum, clearProcessData } =
+    React.useContext(InputContext) as InputContextType;
+  const { setGanttInfoData, clearGanttInfoData } = React.useContext(
+    GanttChartContext
+  ) as GanntChartContextType;
+  const { setStatus } = React.useContext(
+    ControllerContext
+  ) as ControllerContextType;
   const formRef = React.useRef<HTMLFormElement | null>(null);
 
   const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const arrival = e.currentTarget['arrival'].value;
-    const burst = e.currentTarget['burst'].value;
+    const arrival = e.currentTarget["arrival"].value;
+    const burst = e.currentTarget["burst"].value;
     let quantum = 0;
 
-    if (Qauntum) quantum = parseInt(e.currentTarget['quantum'].value);
+    if (Qauntum) quantum = parseInt(e.currentTarget["quantum"].value);
 
-    const ProcessData = Array.from({ length: arrival.split(' ').length }, (_, i) => ({
-      arrivalTime: parseInt(arrival.split(' ')[i]),
-      burstTime: parseInt(burst.split(' ')[i]),
-    }));
+    const ProcessData = Array.from(
+      { length: arrival.split(" ").length },
+      (_, i) => ({
+        arrivalTime: parseInt(arrival.split(" ")[i]),
+        burstTime: parseInt(burst.split(" ")[i]),
+      })
+    );
 
-    if (arrival.split(' ').length < burst.split(' ').length) {
-      alert('Arrival Time should have the same length as Burst Time');
+    if (arrival.split(" ").length < burst.split(" ").length) {
+      alert("Arrival Time should have the same length as Burst Time");
       formRef.current?.reset();
       return;
     }
@@ -45,18 +53,38 @@ function Input() {
     }
 
     let algoApplied: {
-      ProcessInfo: { job: string; arrivalTime: number; BurstTime: number; FinishTime: number; TurnAroundTime: number; WaitingTime: number; }[];
+      ProcessInfo: {
+        job: string;
+        arrivalTime: number;
+        BurstTime: number;
+        FinishTime: number;
+        TurnAroundTime: number;
+        WaitingTime: number;
+      }[];
       ganttChartInfo: GanttData[];
     } = { ProcessInfo: [], ganttChartInfo: [] };
 
-    if (e.currentTarget['algo-name'].value === 'fcfs')
-      algoApplied = fcfs(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
-    else if (e.currentTarget['algo-name'].value === 'sjf')
-      algoApplied = sjf(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
-    else if (e.currentTarget['algo-name'].value === 'srtf')
-      algoApplied = srtf(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime));
-    else if (e.currentTarget['algo-name'].value === 'rr')
-      algoApplied = rr(ProcessData.map((data) => data.arrivalTime), ProcessData.map((data) => data.burstTime), quantum);
+    if (e.currentTarget["algo-name"].value === "fcfs")
+      algoApplied = fcfs(
+        ProcessData.map((data) => data.arrivalTime),
+        ProcessData.map((data) => data.burstTime)
+      );
+    else if (e.currentTarget["algo-name"].value === "sjf")
+      algoApplied = sjf(
+        ProcessData.map((data) => data.arrivalTime),
+        ProcessData.map((data) => data.burstTime)
+      );
+    else if (e.currentTarget["algo-name"].value === "srtf")
+      algoApplied = srtf(
+        ProcessData.map((data) => data.arrivalTime),
+        ProcessData.map((data) => data.burstTime)
+      );
+    else if (e.currentTarget["algo-name"].value === "rr")
+      algoApplied = rr(
+        ProcessData.map((data) => data.arrivalTime),
+        ProcessData.map((data) => data.burstTime),
+        quantum
+      );
 
     //  Clearing the previous data
     clearProcessData();
@@ -85,25 +113,31 @@ function Input() {
       setGanttInfoData(ganttdatas);
     });
 
-    setAlgorithm(e.currentTarget['algo-name'].value);
+    setAlgorithm(e.currentTarget["algo-name"].value);
 
-    if (Qauntum) setTimeQuantum(parseInt(e.currentTarget['quantum'].value));
-  }
+    if (Qauntum) setTimeQuantum(parseInt(e.currentTarget["quantum"].value));
+  };
 
   return (
     <div className="input">
-      <h1 className='table-head'>Input</h1>
+      <h1 className="table-head">Input</h1>
       <form ref={formRef} onSubmit={handlesubmit} className="input-container">
         <div className="input-group">
-          <label htmlFor="algo-name">
-            Choose an Algorithm
-          </label>
-          <select name="algo-name" id="algo-name" onChange={() => {
-            const selected = document.getElementById('algo-name') as HTMLSelectElement;
-            if (selected.value === 'rr') setQauntum(true)
-            else setQauntum(false);
-          }}>
-            <option value="fcfs" defaultChecked={true}>First Come First Serve</option>
+          <label htmlFor="algo-name">Choose an Algorithm</label>
+          <select
+            name="algo-name"
+            id="algo-name"
+            onChange={() => {
+              const selected = document.getElementById(
+                "algo-name"
+              ) as HTMLSelectElement;
+              if (selected.value === "rr") setQauntum(true);
+              else setQauntum(false);
+            }}
+          >
+            <option value="fcfs" defaultChecked={true}>
+              First Come First Serve
+            </option>
             <option value="sjf">Shortest Job First</option>
             <option value="srtf">Shortest Remaining Time First</option>
             <option value="rr">Round Robin</option>
@@ -117,18 +151,16 @@ function Input() {
           <label htmlFor="execute">Burst Time</label>
           <input type="text" name="burst" id="execute" />
         </div>
-        {
-          Qauntum && (
-            <div className="quantum-group">
-              <label htmlFor="quantum">Time Quantum :</label>
-              <input type="number" name="quantum" id="quantum" />
-            </div>
-          )
-        }
-        <button type="submit" >Start Simulation</button>
-      </form >
-    </div >
-  )
+        {Qauntum && (
+          <div className="quantum-group">
+            <label htmlFor="quantum">Time Quantum :</label>
+            <input type="number" name="quantum" id="quantum" />
+          </div>
+        )}
+        <button type="submit">Start Simulation</button>
+      </form>
+    </div>
+  );
 }
 
-export default Input
+export default Input;
