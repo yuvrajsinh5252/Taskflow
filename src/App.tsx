@@ -7,20 +7,40 @@ import { AiFillGithub } from "react-icons/ai";
 import InputProvider from "./contexts/InputContext";
 import GanttChartProvider from "./contexts/GanttChartContext";
 import ControllerProvider from "./contexts/ControllerContext";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [theme, setTheme] = useState("system");
+
+  useEffect(() => {
+    const handleTheme = () => {
+      if (theme === "system") {
+        document.body.removeAttribute("data-theme");
+      } else {
+        document.body.setAttribute("data-theme", theme);
+      }
+    };
+
+    handleTheme();
+  }, [theme]);
+
   return (
     <div className="app">
-      <h2 className="head">
-        <span>CPU Scheduling Algorithm</span>
-        <select id="color-scheme">
-          <option value="system" selected>
-            System
-          </option>
-          <option value="light">Dark</option>
-          <option value="dark">Light</option>
+      <header className="head">
+        <h1 style={{ fontSize: "1.75rem", fontWeight: "600" }}>
+          CPU Scheduling Visualizer
+        </h1>
+        <select
+          id="color-scheme"
+          value={theme}
+          onChange={(e) => setTheme(e.target.value)}
+          style={{ minWidth: "120px" }}
+        >
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
         </select>
-      </h2>
+      </header>
       <InputProvider>
         <div className="container">
           <GanttChartProvider>
@@ -37,7 +57,7 @@ function App() {
           </GanttChartProvider>
         </div>
       </InputProvider>
-      <footer className="footer">
+      <footer className="footer" style={{ padding: "20px 0" }}>
         <a
           href="https://github.com/yuvrajsinh5252"
           target="_blank"

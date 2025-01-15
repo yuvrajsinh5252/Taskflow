@@ -12,26 +12,55 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --animation-width: 100px;
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+  --background-color: #f8fafc;
+  --text-color: #1e293b;
+  --border-color: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+  /* Light theme variables */
+  --primary-bg: #ffffff;
+  --secondary-bg: #f8fafc;
+  --text-primary: #213547;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
 }
 
-/* Main App css */
+/* Dark theme variables */
+[data-theme="dark"] {
+  --primary-bg: #1a1a1a;
+  --secondary-bg: #242424;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border-color: #333333;
+}
+
+body {
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+}
+
 .app {
-  margin: 1% 10%;
-  overflow: auto;
+  margin: 2% auto;
+  max-width: 1400px;
+  padding: 0 20px;
+  min-height: 100vh;
 }
 
 .first-half {
-  width: 30%;
+  width: 35%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .head {
-  background-color: #3d3d3d;
-  color: #ffffff;
-  padding: 15px;
-  border-radius: 5px;
+  background: var(--primary-color);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,8 +69,11 @@
 .container {
   display: flex;
   align-items: start;
-  gap: 20px;
+  gap: 30px;
   justify-content: start;
+  margin-top: 30px;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
 }
 
 .output {
@@ -49,20 +81,22 @@
   display: flex;
   gap: 10px;
   flex-direction: column;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 25px;
+  border-radius: 12px;
   padding-top: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  background: var(--primary-bg);
 }
 
 /* Input CSS */
 
 .input {
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  background: var(--primary-bg);
 }
 
 label {
@@ -72,13 +106,13 @@ label {
 #algo-name {
   padding: 10px;
   border-radius: 5px;
-  background-color: white;
-  color: #213547;
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
 }
 
 option {
-  background-color: white;
-  color: #213547;
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
   padding: 10px;
 }
 
@@ -101,21 +135,29 @@ option {
 }
 
 input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
-  color: #213547;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+  font-size: 15px;
+  transition: all 0.2s;
 }
 
 button {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #3d3d3d;
-  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--primary-color);
+  color: white;
+  font-weight: 500;
   margin-right: auto;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: var(--secondary-color);
 }
 
 /* ProcessTable css */
@@ -140,17 +182,26 @@ button {
   width: 100%;
   border-collapse: collapse;
   min-height: 270px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .process-table th,
 .process-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
+  border: 1px solid var(--border-color);
+  padding: 12px;
   text-align: center;
 }
 
 .process-table th {
-  background-color: grey;
+  background: var(--primary-color);
+  color: white;
+  padding: 15px;
+}
+
+.process-table td {
+  background: var(--primary-bg);
+  border-color: var(--border-color);
 }
 
 /* GanttChart css */
@@ -188,8 +239,11 @@ button {
   justify-content: center;
   height: 50px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
   animation: fadeIn 0.5s forwards;
+  min-width: 60px;
+  background: var(--primary-color);
+  color: white;
 }
 
 /* controller css */
@@ -197,12 +251,13 @@ button {
 .controller-box {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  padding: 25px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
+  background: var(--primary-bg);
 }
 
 .control {
@@ -219,7 +274,7 @@ button {
 .control .button {
   padding: 10px 20px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   background-color: #3d3d3d;
   color: #ffffff;
   margin-right: auto;
@@ -277,12 +332,73 @@ button {
   color: #213547;
 }
 
-/* Dark mode media query */
+@media (max-width: 768px) {
+  .app {
+    margin: 0;
+    padding: 10px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .first-half {
+    width: 100%;
+  }
+
+  .output {
+    width: 100%;
+  }
+
+  .head {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .process-table {
+    font-size: 14px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .input {
+    padding: 15px;
+  }
+
+  .quantum-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin-top: 40px;
+    justify-content: center;
+  }
+}
 
 @media (prefers-color-scheme: dark) {
   :root:has(select option[value="dark"]:checked) {
     color: #213547;
     background-color: #ffffff;
+  }
+}
+
+@media (hover: none) {
+  input,
+  select,
+  button {
+    min-height: 44px;
+  }
+
+  .control .button {
+    padding: 15px;
+    margin: 5px;
   }
 }
 

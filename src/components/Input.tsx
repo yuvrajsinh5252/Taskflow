@@ -102,9 +102,7 @@ function Input() {
     });
 
     algoApplied.ganttChartInfo.forEach((process) => {
-      let ganttdatas: GanttData;
-
-      ganttdatas = {
+      const ganttdatas = {
         ProcessName: process.ProcessName,
         Interval: process.Interval,
       };
@@ -120,10 +118,10 @@ function Input() {
 
   return (
     <div className="input">
-      <h1 className="table-head">Input</h1>
+      <h1 className="table-head">Algorithm Configuration</h1>
       <form ref={formRef} onSubmit={handlesubmit} className="input-container">
         <div className="input-group">
-          <label htmlFor="algo-name">Choose an Algorithm</label>
+          <label htmlFor="algo-name">Algorithm Type</label>
           <select
             name="algo-name"
             id="algo-name"
@@ -143,21 +141,33 @@ function Input() {
             <option value="rr">Round Robin</option>
           </select>
         </div>
-        <div className="input-group">
-          <label htmlFor="arrival">Arrival Time</label>
-          <input type="text" name="arrival" id="arrival" />
-        </div>
-        <div className="input-group">
-          <label htmlFor="execute">Burst Time</label>
-          <input type="text" name="burst" id="execute" />
+        <div className="input-field-group">
+          <div className="input-group">
+            <label htmlFor="arrival">Arrival Time (space-separated)</label>
+            <input
+              type="text"
+              name="arrival"
+              id="arrival"
+              placeholder="e.g. 0 2 4 6"
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="execute">Burst Time (space-separated)</label>
+            <input
+              type="text"
+              name="burst"
+              id="execute"
+              placeholder="e.g. 3 6 4 5"
+            />
+          </div>
         </div>
         {Qauntum && (
-          <div className="quantum-group">
+          <div className="quantum-group" style={{ margin: "20px 0" }}>
             <label htmlFor="quantum">Time Quantum :</label>
             <input type="number" name="quantum" id="quantum" />
           </div>
         )}
-        <button type="submit">Start Simulation</button>
+        <button type="submit">Run Simulation</button>
       </form>
     </div>
   );
