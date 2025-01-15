@@ -36,7 +36,8 @@ export default function Controller() {
       <div className="control">
         <GiPreviousButton
           onClick={() => setStatus("prev")}
-          className="prev button"
+          size={40}
+          className="control_button"
         />
         {play ? (
           <GiPauseButton
@@ -44,7 +45,8 @@ export default function Controller() {
               setStatus("paused");
               setPlay(false);
             }}
-            className="pause button"
+            size={40}
+            className="control_button"
           />
         ) : (
           <GiPlayButton
@@ -52,12 +54,14 @@ export default function Controller() {
               setStatus("running");
               setPlay(true);
             }}
-            className="play button"
+            size={40}
+            className="control_button"
           />
         )}
         <GiNextButton
           onClick={() => setStatus("next")}
-          className="next button"
+          size={40}
+          className="control_button"
         />
       </div>
     </div>
